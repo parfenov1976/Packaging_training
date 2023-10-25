@@ -3,15 +3,36 @@
 """
 
 from PySide6.QtWidgets import QMainWindow, QApplication, QPushButton
+from PySide6.QtGui import QIcon
 import sys
+import os
 
 """
+Импорт модуля sys, предоставляющего доступ к объекта интерпретатора, нужен для доступа
+к аргументам командной строки. Если использование аргументов командной строки не предполагается,
+то импорт можно не выполнять. При этом, при создании приложения в класс QtWidgets.QApplication([])
+в качестве аргумента передается пустой.
+
+Импорт модуля os для работы с переменными среды.
+
 Импорт из модуля QtWidgets библиотеки PySide6 классов:
 - класса главных окон QMinWindow
 - класса основного цикла событий приложения QApplication
 - класса виджета кнопки QPushButton
+
+Импорт из модуля QtGui библиотеки PySide6 классов:
+- класса иконки QIcon
 """
 
+# Далее идет код, обеспечивающий показ правильной иконки в панели задач Windows
+basedir = os.path.dirname(__file__)  # извлекает путь к данному файлу и записывает его в переменную
+
+try:  # перехват исключения на случай, если данный файл будет запущен не под Windows
+    from ctypes import windll  # импорт модуля, дающего доступ к идентификатору процесса Windows
+    myappid = 'parfen.hw.simpleapp.1'
+    windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+except ImportError:
+    pass
 
 class MainWindow(QMainWindow):
     """
@@ -36,6 +57,7 @@ def main() -> None:
     :return: None
     """
     app = QApplication(sys.argv)  # создание основного цикла событий приложения
+    app.setWindowIcon(QIcon('icon.svg'))  # создание иконки приложения из файла иконки
     window = MainWindow()  # создание главного окна приложения
     window.show()  # метод, устанавливающий видимость окна (по умолчанию окно спрятано)
     app.exec()  # запуск основного цикла событий приложения
