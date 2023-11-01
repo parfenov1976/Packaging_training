@@ -15,6 +15,11 @@ a = Analysis(
 )
 pyz = PYZ(a.pure)
 
+app = BUNDLE(coll,
+    name='Hello World.app',
+    icon='icon.icns',
+    bundle_identifier=None)
+
 exe = EXE(
     pyz,
     a.scripts,
