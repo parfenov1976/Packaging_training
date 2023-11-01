@@ -29,10 +29,12 @@ basedir = os.path.dirname(__file__)  # извлекает путь к данно
 
 try:  # перехват исключения на случай, если данный файл будет запущен не под Windows
     from ctypes import windll  # импорт модуля, дающего доступ к идентификатору процесса Windows
+
     myappid = 'parfen.hw.simpleapp.1'
     windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 except ImportError:
     pass
+
 
 class MainWindow(QMainWindow):
     """
@@ -46,6 +48,7 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)  # явный вызов конструктора родительского класса
         self.setWindowTitle('Hello World')  # установка имени главного окна приложения
         button = QPushButton('My simple app.')  # создание экземпляра виджета кнопки
+        button.setIcon(QIcon(os.path.join(basedir, 'icon.svg')))  # установка иконки на кнопку
         button.pressed.connect(self.close)  # создание сигнала на нажатие кнопки и привязка встроенной команды
         # на закрытие окна приложения
         self.setCentralWidget(button)  # размещение кнопки в главном окне приложения
@@ -57,7 +60,7 @@ def main() -> None:
     :return: None
     """
     app = QApplication(sys.argv)  # создание основного цикла событий приложения
-    app.setWindowIcon(QIcon('icon.svg'))  # создание иконки приложения из файла иконки
+    app.setWindowIcon(QIcon('icon.svg'))  # создание иконки приложения из файла иконки для показа на заголовке окна
     window = MainWindow()  # создание главного окна приложения
     window.show()  # метод, устанавливающий видимость окна (по умолчанию окно спрятано)
     app.exec()  # запуск основного цикла событий приложения
