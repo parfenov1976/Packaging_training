@@ -2,26 +2,12 @@
 Простое приложение для изучения упаковки приложений
 """
 
-from PySide6.QtWidgets import QMainWindow, QApplication, QPushButton
-from PySide6.QtGui import QIcon
-import sys
+import tkinter as tk
 import os
 
 """
-Импорт модуля sys, предоставляющего доступ к объекта интерпретатора, нужен для доступа
-к аргументам командной строки. Если использование аргументов командной строки не предполагается,
-то импорт можно не выполнять. При этом, при создании приложения в класс QtWidgets.QApplication([])
-в качестве аргумента передается пустой.
-
+Импорт встроенной библиотеки Tkinter для создания графического интерфейса
 Импорт модуля os для работы с переменными среды.
-
-Импорт из модуля QtWidgets библиотеки PySide6 классов:
-- класса главных окон QMinWindow
-- класса основного цикла событий приложения QApplication
-- класса виджета кнопки QPushButton
-
-Импорт из модуля QtGui библиотеки PySide6 классов:
-- класса иконки QIcon
 """
 
 # Далее идет код, обеспечивающий показ правильной иконки в панели задач Windows
@@ -36,22 +22,35 @@ except ImportError:
     pass
 
 
-class MainWindow(QMainWindow):
+class MainWindow(tk.Tk):
     """
-    Класс главного окна приложения от супер класса главных окон
+    Класс приложения от супер класса главного окна
     """
 
     def __init__(self) -> None:
         """
-        Конструктор главного окна приложения
+        Конструктор класса приложения
         """
-        QMainWindow.__init__(self)  # явный вызов конструктора родительского класса
-        self.setWindowTitle('Hello World')  # установка имени главного окна приложения
-        button = QPushButton('My simple app.')  # создание экземпляра виджета кнопки
-        button.setIcon(QIcon(os.path.join(basedir, 'icon.svg')))  # установка иконки на кнопку
-        button.pressed.connect(self.close)  # создание сигнала на нажатие кнопки и привязка встроенной команды
-        # на закрытие окна приложения
-        self.setCentralWidget(button)  # размещение кнопки в главном окне приложения
+        tk.Tk.__init__(self)  # явный вызов конструктора родительского класса
+        self.button_icon = tk.PhotoImage(file=os.path.join(basedir, "icon.png"))  # создание объекта изображения
+        # из файла
+        self.button = tk.Button(text='My simple app', image=self.button_icon)  # создание экземпляра кнопки с установкой
+        # текста на кнопку и иконки
+        self.init_ui()  # вызов метода инициализации графического интерфейса
+
+    def init_ui(self) -> None:
+        """
+        Метод инициализации графического интерфейса приложения
+        :return: None
+        """
+        self.title('Hello World')  # установка имени окна
+        self.iconbitmap(os.path.join(basedir, 'icon.ico'))  # установка иконки для заголовка окна
+        self.button.pack()  # размещение кнопки в окне приложения с помощью менеджера геометрии
+        self.button.bind('<Button-1>', self.handle_button_press)  # назначение сигнала на нажатие кнопки левой кнопкой
+        # мыши с привязкой слота ресивера
+
+    def handle_button_press(self, event):
+        self.destroy()
 
 
 def main() -> None:
@@ -59,11 +58,9 @@ def main() -> None:
     Функция запуска кода верхнего уровня приложения
     :return: None
     """
-    app = QApplication(sys.argv)  # создание основного цикла событий приложения
-    app.setWindowIcon(QIcon('icon.svg'))  # создание иконки приложения из файла иконки для показа на заголовке окна
     window = MainWindow()  # создание главного окна приложения
-    window.show()  # метод, устанавливающий видимость окна (по умолчанию окно спрятано)
-    app.exec()  # запуск основного цикла событий приложения
+    window.geometry("250x150+300+300")  # задаем размер окна и его расположение
+    window.mainloop()  # запуск основного цикла событий
 
 
 if __name__ == '__main__':
