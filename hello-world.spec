@@ -5,7 +5,7 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('icon.ico','.'), ('icon.png','.')],  # форс иконок, т.к. анализ скрипта их не подхватывает
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -14,11 +14,6 @@ a = Analysis(
     noarchive=False,
 )
 pyz = PYZ(a.pure)
-
-app = BUNDLE(coll,
-    name='Hello World.app',
-    icon='icon.icns',
-    bundle_identifier=None)
 
 exe = EXE(
     pyz,
