@@ -5,7 +5,7 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[('icon.ico','.'), ('icon.png','.')],  # форс иконок, т.к. анализ скрипта их не подхватывает
+    datas=[('icon.ico','.'), ('icon.png','.'), ('icon.svg','.'), ('icon.icns','.')],  # форс иконок, т.к. анализ скрипта их не подхватывает
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
