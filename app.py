@@ -32,6 +32,7 @@ class MainWindow(tk.Tk):
         Конструктор класса приложения
         """
         tk.Tk.__init__(self)  # явный вызов конструктора родительского класса
+        self.label = tk.Label(text='My simple app')
         self.button_icon = tk.PhotoImage(file=os.path.join(basedir, "icon.png"))  # создание объекта изображения
         # из файла
         self.button = tk.Button(text='My simple app', image=self.button_icon)  # создание экземпляра кнопки с установкой
@@ -45,6 +46,7 @@ class MainWindow(tk.Tk):
         """
         self.title('Hello World')  # установка имени окна
         self.iconbitmap(os.path.join(basedir, 'icon.ico'))  # установка иконки для заголовка окна
+        self.label.pack()
         self.button.pack()  # размещение кнопки в окне приложения с помощью менеджера геометрии
         self.button.bind('<Button-1>', self.handle_button_press)  # назначение сигнала на нажатие кнопки левой кнопкой
         # мыши с привязкой слота ресивера
