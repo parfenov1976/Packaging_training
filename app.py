@@ -33,10 +33,13 @@ class MainWindow(tk.Tk):
         """
         tk.Tk.__init__(self)  # явный вызов конструктора родительского класса
         self.label = tk.Label(text='My simple app')
-        self.button_icon = tk.PhotoImage(file=os.path.join(basedir, "icon.png"))  # создание объекта изображения
+        self.button_close_icon = tk.PhotoImage(
+            file=os.path.join(basedir, 'icons', 'lightning.png'))  # создание объекта изображения
         # из файла
-        self.button = tk.Button(text='My simple app', image=self.button_icon)  # создание экземпляра кнопки с установкой
-        # текста на кнопку и иконки
+        self.button_maximimize_icon = tk.PhotoImage(file=os.path.join(basedir, 'icons', 'uparrow.png'))
+        self.button_close = tk.Button(text='Close', image=self.button_close_icon)  # создание экземпляра кнопки
+        # с установкой текста на кнопку и иконки
+        self.button_maximimize = tk.Button(text='Maximize', image=self.button_maximimize_icon)
         self.init_ui()  # вызов метода инициализации графического интерфейса
 
     def init_ui(self) -> None:
@@ -45,14 +48,19 @@ class MainWindow(tk.Tk):
         :return: None
         """
         self.title('Hello World')  # установка имени окна
-        self.iconbitmap(os.path.join(basedir, 'icon.ico'))  # установка иконки для заголовка окна
+        self.iconbitmap(os.path.join(basedir, 'icons', 'icon.ico'))  # установка иконки для заголовка окна
         self.label.pack()
-        self.button.pack()  # размещение кнопки в окне приложения с помощью менеджера геометрии
-        self.button.bind('<Button-1>', self.handle_button_press)  # назначение сигнала на нажатие кнопки левой кнопкой
-        # мыши с привязкой слота ресивера
+        self.button_close.pack()  # размещение кнопки в окне приложения с помощью менеджера геометрии
+        self.button_close.bind('<Button-1>', self.handle_button_press_close)  # назначение сигнала на нажатие кнопки
+        # левой кнопкой мыши с привязкой слота ресивера
+        self.button_maximimize.pack()
+        self.button_maximimize.bind('<Button-1>', self.handle_button_press_maximize)
 
-    def handle_button_press(self, event):
+    def handle_button_press_close(self, event):
         self.destroy()
+
+    def handle_button_press_maximize(self, event):
+        self.state('zoomed')
 
 
 def main() -> None:
@@ -61,7 +69,7 @@ def main() -> None:
     :return: None
     """
     window = MainWindow()  # создание главного окна приложения
-    window.geometry("250x150+300+300")  # задаем размер окна и его расположение
+    window.geometry("250x350+300+300")  # задаем размер окна и его расположение
     window.mainloop()  # запуск основного цикла событий
 
 
