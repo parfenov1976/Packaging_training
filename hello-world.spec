@@ -5,7 +5,7 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[('icon.ico','.'), ('icon.png','.'), ('icon.svg','.'), ('icon.icns','.')],  # форс иконок, т.к. анализ скрипта их не подхватывает
+    datas=[('icons', 'icons')],  # путь к иконкам
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -31,7 +31,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['icon.ico'],
+    icon=['icons/icon.ico'],
 )
 coll = COLLECT(
     exe,
@@ -44,5 +44,5 @@ coll = COLLECT(
 )
 app = BUNDLE(coll,
     name='Hello World.app',
-    icon='icon.icns',
+    icon='icons/icon.icns',
     bundle_identifier=None)
