@@ -1,7 +1,7 @@
 ## Учебные материалы по упаковке приложений на Python.
 Различные примеры находятся в разных ветках репозитория
 ### Развертывание на локальной машине:
-#### Mac OS, Linux OS
+#### Mac OS
 1. Создаем виртуальное окружение:
    ```bash
    python -m venv venv
@@ -92,4 +92,38 @@ https://installforge.net/download/
 и выполняем его сборку. Полученный в результате файл можно устанавливать как привычное 
 приложение.
 Пример файла конфигурации см. ```hello-world.ifp```
-   
+#### MacOS
+Для создания установочного пакета можно воспользоваться утилитой create-dmg.
+Данная утилита устанавливается через Homebrew, соответственно предварительно
+нужно поставить Homebrew.
+Данная утилита работает со сценариями. Пример сценария для создания пакета формата dmg
+```bash
+#!/bin/sh
+test -f "Hello World.dmg" && rm "Hello World.dmg"
+test -d "dist/dmg" && rm -rf "dist/dmg"
+# Make the dmg folder & copy our .app bundle in.
+mkdir -p "dist/dmg"
+cp -r "dist/Hello World.app" "dist/dmg"
+# Create the dmg.
+create-dmg \
+   --volname "Hello World" \
+   --volicon "icons/icon.icns" \
+   --window-pos 200 120 \
+   --window-size 800 400 \
+   --icon-size 100 \
+   --icon "Hello World.app" 200 190 \
+   --hide-extension "Hello World.app" \
+   --app-drop-link 600 185 \
+   "Hello World.dmg" \
+   "dist/dmg/"
+```
+Данный сценарий нужно сохранить в файл, например ```build-dmg.sh```
+
+Команда, которая позволяет сделать сценарий исполняемым
+```bash
+chmod +x build-dmg.sh
+```
+Запуск сценария на исполнение
+```bash
+./build-dmg.sh
+```
